@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Test / coverage artifacts
+.coverage
+coverage.xml
+.pytest_cache/
+htmlcov/
+
+# Type checking
+.mypy_cache/
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Claude Code local settings (keep .claude/settings.json, not local overrides)
+.claude/settings.local.json
+
+# Atlas output files (generated at runtime)
+*.json
+*.html
+!pyproject.toml

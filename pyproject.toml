@@ -1,0 +1,89 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hallucimap"
+version = "0.1.0"
+description = "Cartograph hallucination risk across an LLM's knowledge space"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "hallucimap contributors" }]
+keywords = ["llm", "hallucination", "evaluation", "ai-safety"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "openai>=1.30.0",
+    "anthropic>=0.25.0",
+    "transformers>=4.40.0",
+    "torch>=2.2.0",
+    "numpy>=1.26.0",
+    "scipy>=1.13.0",
+    "plotly>=5.22.0",
+    "rich>=13.7.0",
+    "typer>=0.12.0",
+    "pydantic>=2.7.0",
+    "tenacity>=8.3.0",
+    "tqdm>=4.66.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "httpx>=0.27.0",
+]
+
+[project.scripts]
+hallucimap = "hallucimap.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/your-org/hallucimap"
+Issues = "https://github.com/your-org/hallucimap/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hallucimap"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "TCH"]
+ignore = [
+    "E501",
+    "B008",   # Typer requires function calls (Option/Argument) in defaults
+    "TC001",  # Type-checking import moves are too aggressive for runtime use
+    "TC002",  # Same — numpy/plotly used at runtime, not only for annotations
+    "TC003",  # Same — pathlib.Path used at runtime
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "--cov=hallucimap --cov-report=term-missing --cov-report=xml"
+
+[tool.coverage.run]
+source = ["src/hallucimap"]
+omit = ["*/tests/*"]
